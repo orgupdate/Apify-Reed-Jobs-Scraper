@@ -27,6 +27,7 @@ The **Reed Jobs Scraper** is a powerful tool designed to scrape and aggregate jo
 | `locationName`    | String | (Optional) Enter the city or region. |
 | `includeKeyword`  | String | (Optional) Comma-separated keywords (e.g., React, Next.js, remote, part time). |
 | `pagesToFetch`    | Integer | Number of pages to scrape. Minimum: 1. Default: 1. |
+| `jobType`    | String | Value can be "FULLTIME", "PARTTIME", "CONTRACTOR" or "INTERN". |
 | `datePosted`          | String | Value can be "today", "3days", "week", "month". Default: "month". |
 
 ### Example Input:
@@ -38,6 +39,8 @@ The **Reed Jobs Scraper** is a powerful tool designed to scrape and aggregate jo
   "locationName": "new york",
   "includeKeyword": "python, django",
   "pagesToFetch": 2,
+    "jobType": "FULLTIME",
+  "datePosted": "month"
 }
 ```
 

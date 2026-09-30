@@ -5,8 +5,41 @@ const { default: axios } = require("axios");
 Actor.main(async () => {
   try {
     // 1. Get input from Apify task / API
-    const input = await Actor.getInput();
+    const input = (await Actor.getInput()) || {};
     console.log("Received input:", input);
+
+    const allowedFields = [
+      "includeKeyword",
+      "locationName",
+      "countryName",
+      "pagesToFetch",
+      "companyName",
+      "jobType",
+      "datePosted",
+      "targetLocations",
+    ];
+    const unsupported = Object.keys(input).filter(
+      (key) => !allowedFields.includes(key)
+    );
+    if (unsupported.length > 0) {
+      throw new Error(
+        `Unsupported parameter${unsupported.length > 1 ? "s" : ""}: ` +
+          `${unsupported.join(", ")}. This Actor only supports: ` +
+          `${allowedFields.join(", ")}.`
+      );
+    }
+
+    const missingFields = ["includeKeyword", "locationName", "countryName"].filter(
+      (field) => !input[field]
+    );
+    if (missingFields.length > 0) {
+      throw new Error(
+        `Missing required input field(s): ${missingFields.join(", ")}. This Actor ` +
+          "expects includeKeyword, locationName, countryName, pagesToFetch " +
+          "(optional: companyName, jobType, datePosted) -- check your input " +
+          "against the Actor's input schema."
+      );
+    }
         const { userIsPaying } = Actor.getEnv();
     const isFreeUser = !userIsPaying;
 
